@@ -7,7 +7,7 @@ require.config ({
         ui_grid: 'ui-grid',
         ng_jsoneditor: 'ng-jsoneditor.min',
         jsoneditor: 'jsoneditor.min',
-        templates: '../templates'
+        templates: 'templates'
     },
     shim: {
         angular: {

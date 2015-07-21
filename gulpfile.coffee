@@ -38,7 +38,7 @@ gulp.task 'bower', ['clean', 'copy-ng'], () ->
 gulp.task 'ng-templates', ['clean'], () ->
     gulp.src('src/*.html')
         .pipe(ng_templateCache({'templates.js', standalone: true}))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist/js'))
 
 # wrapper to concatenate all scripts with r.js
 gulp.task 'package', ['clean', 'ng-templates', 'bower'], () ->

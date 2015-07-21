@@ -1,5 +1,5 @@
 # Remove external JS, since bundled in production
-dist
+dist/js
 
 ### Bower ###
 bower_components
