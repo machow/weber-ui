@@ -5,6 +5,7 @@ uglify = require 'gulp-uglify'
 sourcemaps = require 'gulp-sourcemaps'
 mainBowerFiles = require 'main-bower-files'
 ng_templateCache = require 'gulp-angular-templatecache'
+bower = require 'gulp-bower'
 del = require 'del'
 
 paths = 
@@ -19,7 +20,10 @@ paths =
     json_editor_assets: 'bower_components/jsoneditor/dist/img/jsoneditor-icons.png'
     templates: 'src/*.html',
 
-gulp.task 'clean', (cb) ->
+gulp.task 'bower-install', () ->
+    bower()
+
+gulp.task 'clean', ['bower-install'], (cb) ->
     del('dist/*', cb)
 
 gulp.task 'copy-ng', ['clean'], () ->
