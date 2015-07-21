@@ -1,0 +1,11 @@
+# Remove external JS, since bundled in production
+dist
+
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
+
+### NPM ###
+
