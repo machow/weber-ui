@@ -26,12 +26,13 @@ gulp.task 'bower-install', () ->
 gulp.task 'clean', ['bower-install'], (cb) ->
     del('dist/*', cb)
 
-gulp.task 'copy-ng', ['clean'], () ->
-    gulp.src('bower_components/angular/angular.min.js')
+# Copy build files to dist/js -----------------------------
+gulp.task 'bower', ['clean', 'bower-manual', 'ng-templates'], () ->
+    gulp.src(mainBowerFiles())
         .pipe(gulp.dest('dist/js'))
 
-gulp.task 'bower', ['clean', 'copy-ng'], () ->
-    gulp.src(mainBowerFiles())
+gulp.task 'bower-manual', ['clean'], () ->
+    gulp.src(['bower_components/angular/angular.min.js', 'bower_components/ace-builds/src-min-noconflict/ace.js'])
         .pipe(gulp.dest('dist/js'))
 
 # compile angular templates into single js file (templates.js)
@@ -40,11 +41,7 @@ gulp.task 'ng-templates', ['clean'], () ->
         .pipe(ng_templateCache({'templates.js', standalone: true}))
         .pipe(gulp.dest('dist/js'))
 
-# wrapper to concatenate all scripts with r.js
-gulp.task 'package', ['clean', 'ng-templates', 'bower'], () ->
-    gulp.src('')
-        .pipe(shell(['r.js -o build.js']))
-
+# copy CSS
 gulp.task 'css', ['clean'], () ->
     gulp.src(paths.css)
         .pipe(sourcemaps.init())
@@ -58,6 +55,13 @@ gulp.task 'cssassets', ['clean'], () ->
 
     gulp.src('bower_components/jsoneditor/dist/*/*.png')
         .pipe(gulp.dest('dist'))
+
+# Build weber-ui.js and weber-ui.css -------------
+#
+gulp.task 'package', ['clean', 'ng-templates', 'bower'], () ->
+    gulp.src('')
+        .pipe(shell(['r.js -o build.js']))
+
 
 gulp.task('build' , ['package', 'css', 'cssassets'])
 
