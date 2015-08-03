@@ -1,0 +1,23 @@
+<div class="row timeline">
+  <div class="col-sm-2 text-center"></div>
+  <div class="col-sm-2 text-center"
+    ng-repeat="t in timeline track by $index", style="border: solid 1px black; padding: 0px"
+    popover-template="'timeline-edit.tpl'" popover-trigger="click" popover-placement="{{$index % 2 ? 'bottom' : 'top'}}"
+    >
+
+    <p>{{t.name}}</p>
+  </div>
+</div>
+<br><br><br><br><br><br><br>
+
+<script type="text/ng-template" id="timeline-edit.tpl">
+  <div ng-switch on="dataType($index)">
+    <div ng-switch-when="function">
+      <div ui-ace style="height: 300px; width: 500px;" ng-model="timeline[$index].data"></div>
+      {{t.data}}
+    </div>
+    <div ng-switch-when="object">
+      <div ng-jsoneditor ng-model="timeline[$ii].data" style="width: 500px"></div>
+    </div>
+  </div>
+</script>
