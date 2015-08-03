@@ -131,7 +131,7 @@ app.directive('wbMini', ['$http', 'gridOptions', function($http, gridOptions){
             ace: ace,
             // since only code mode exposes the ace editor, we'll start in 
             // code mode, set ace options, then switch to tree
-            mode: 'code',
+            mode: 'tree',
             modes: ['code', 'tree']
         };
 
