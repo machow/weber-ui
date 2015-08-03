@@ -11,14 +11,14 @@ del = require 'del'
 paths = 
     css: ['bower_components/jsoneditor/dist/jsoneditor.css', 
           'bower_components/angular-ui-grid/ui-grid.css', 
-          'src/weber-ui.css']
+          'src/**/*.css']
           #'src/fix-jsoneditor.css']
     ui_grid_assets: [
         'bower_components/angular-ui-grid/ui-grid.woff',
         'bower_components/angular-ui-grid/ui-grid.ttf'
     ]
     json_editor_assets: 'bower_components/jsoneditor/dist/img/jsoneditor-icons.png'
-    templates: 'src/*.html',
+    templates: ['src/mini/*.html', 'src/timeline/*.html']
 
 gulp.task 'bower-install', () ->
     bower()
@@ -27,17 +27,31 @@ gulp.task 'clean', ['bower-install'], (cb) ->
     del('dist/*', cb)
 
 # Copy build files to dist/js -----------------------------
-gulp.task 'bower', ['clean', 'bower-manual', 'ng-templates'], () ->
+gulp.task 'bower', ['clean', 'bower-manual-copy', 'bower-manual-jsoneditor', 'ng-templates'], () ->
     gulp.src(mainBowerFiles())
         .pipe(gulp.dest('dist/js'))
 
-gulp.task 'bower-manual', ['clean'], () ->
-    gulp.src(['bower_components/angular/angular.min.js', 'bower_components/ace-builds/src-min-noconflict/ace.js'])
+gulp.task 'bower-manual-copy', ['clean'], () ->
+    gulp.src(['bower_components/angular/angular.min.js', 
+              'bower_components/ace-builds/src-min-noconflict/ace.js',
+              'bower_components/angular-ui-grid/ui-grid.min.js'])
         .pipe(gulp.dest('dist/js'))
+
+gulp.task 'bower-manual-jsoneditor', ['clean'], () ->
+    # build jsoneditor without ace, then make it the main file
+    gulp.src('')
+        .pipe(shell([
+            'npm install',
+            'browserify ./index.js -o ./jsoneditor.custom.js -s JSONEditor -x brace -x brace/mode/json -x brace/ext/searchbox',
+            'uglifyjs ./jsoneditor.custom.js -o ./dist/jsoneditor.min.js -m -c',
+            'browserify ./src/js/ace/index.js -o jsoneditor-ace.js',
+            'uglifyjs ./jsoneditor-ace.js -o ../../dist/js/jsoneditor-ace.js -m -c'
+        ], cwd: 'bower_components/jsoneditor'))
+
 
 # compile angular templates into single js file (templates.js)
 gulp.task 'ng-templates', ['clean'], () ->
-    gulp.src('src/*.html')
+    gulp.src(paths.templates)
         .pipe(ng_templateCache({'templates.js', standalone: true}))
         .pipe(gulp.dest('dist/js'))
 
@@ -61,7 +75,6 @@ gulp.task 'cssassets', ['clean'], () ->
 gulp.task 'package', ['clean', 'ng-templates', 'bower'], () ->
     gulp.src('')
         .pipe(shell(['r.js -o build.js']))
-
 
 gulp.task('build' , ['package', 'css', 'cssassets'])
 

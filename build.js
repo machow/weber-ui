@@ -1,8 +1,8 @@
 ({
     mainConfigFile: 'boot.js',
-    baseUrl: 'dist/js',
+    baseUrl: 'src',
     out: 'dist/weber-ui.js',
-    name: "../../boot",
+    name: "../boot",
     //removeCombined: false,
     //findNestedDependencies: false,
     //optimize: 'none'

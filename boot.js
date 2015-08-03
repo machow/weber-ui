@@ -1,20 +1,21 @@
 require.config ({
-    appDir  : '',
-    baseUrl : '/dist/js/',
+    baseUrl : '/src',
     paths: {
-        app: '../../src/mini-workbench',
-        wb_timeline: '../../src/timeline',
-        templates: 'templates',
+        app: 'app',
+        templates: '../dist/js/templates',
         // Angular modules
-        angular: 'angular.min',
-        ng_jsoneditor: 'ng-jsoneditor.min',
-        jsoneditor: 'jsoneditor.min',
-        ng_ace: "ui-ace",
-        ace: "ace",
-        ng_bootstrap: 'ui-bootstrap-tpls',
-        ui_grid: 'ui-grid',
+        angular:        '../dist/js/angular.min',
+        ng_jsoneditor:  '../dist/js/ng-jsoneditor.min',
+        jsoneditor:     '../dist/js/jsoneditor.min',
+        ng_ace:         '../dist/js/ui-ace',
+        ace:            '../dist/js/jsoneditor-ace',
+        ng_bootstrap:   '../dist/js/ui-bootstrap-tpls',
+        ui_grid:        '../dist/js/ui-grid.min'
     },
     shim: {
+        ace: {
+            exports: 'ace'
+        },
         angular: {
             exports: 'angular'
         },
