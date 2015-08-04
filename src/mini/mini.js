@@ -141,6 +141,14 @@ app.directive('wbMini', ['$http', 'gridOptions', function($http, gridOptions){
             $http.get(attrs.streamVal).success(function(data){
                 scope.jedit.json = data;
                 scope.updateStreamParams();
+                //
+                // set search value
+                // TODO this should be made its own function on scope,
+                // then this can call on success
+                if (attrs.search) {
+                    e = elem;
+                    elem.find('input').val(attrs.search)[0].oninput();
+                }
             });
         }
         
